@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f6f8ff 0%, #e9eeff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 2.2rem;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.cats-left {
+    font-size: 1.2rem;
+    color: #4a5568;
+    font-weight: 500;
+    background: #f7fafc;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+}
+
+#new-game {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
+}
+
+#new-game:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(102, 126, 234, 0.35);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 45px);
+    grid-template-rows: repeat(10, 45px);
+    gap: 4px;
+    background-color: #e2e8f0;
+    padding: 4px;
+    border-radius: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.cell {
+    background-color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.cell:hover {
+    background-color: #f7fafc;
+    transform: scale(1.05);
+}
+
+.revealed {
+    background-color: #f8fafc;
+}
+
+.cat {
+    background-color: #feebc8;
+    font-size: 1.5rem;
+}
+
+.bomb {
+    background-color: #fee2e2;
+    font-size: 1.5rem;
+}
+
+/* Number colors - total of nearby bombs and cats */
+.cell[data-number="1"] { color: #3b82f6; }  /* blue */
+.cell[data-number="2"] { color: #10b981; }  /* green */
+.cell[data-number="3"] { color: #ef4444; }  /* red */
+.cell[data-number="4"] { color: #6366f1; }  /* indigo */
+.cell[data-number="5"] { color: #b91c1c; }  /* dark red */
+.cell[data-number="6"] { color: #0d9488; }  /* teal */
+.cell[data-number="7"] { color: #4b5563; }  /* gray */
+.cell[data-number="8"] { color: #1e293b; }  /* slate */
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform: scale(0.95);
+    animation: modalPop 0.2s ease forwards;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@keyframes modalPop {
+    to {
+        transform: scale(1);
+    }
+}
+
+.modal h2 {
+    color: #2d3748;
+    margin-bottom: 1.2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.modal p {
+    color: #4a5568;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.modal-button {
+    padding: 0.75rem 2.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    color: white;
+    min-width: 120px;
+}
+
+.modal-button.success {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
+}
+
+.modal-button.failure {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
+}
+
+.modal-button:hover {
+    transform: translateY(-2px);
+}
+
+.modal-button.success:hover {
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.35);
+}
+
+.modal-button.failure:hover {
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.35);
+}
