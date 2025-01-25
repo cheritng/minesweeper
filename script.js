@@ -141,11 +141,17 @@ class FindOscar {
                     if (this.grid[i][j].isBomb) {
                         cell.innerHTML = '💣';
                         cell.classList.add('bomb');
+                        if (this.grid[i][j].isEndGameBomb) {
+                            cell.classList.add('end-game-bomb');  // Add class for end-game bombs
+                        }
                     } else if (this.grid[i][j].isCat) {
                         cell.innerHTML = '🐱';
                         cell.classList.add('cat');
+                        if (this.gameOver) {
+                            cell.classList.add('end-game-cat');  // Add class for end-game cats
+                        }
                     } else {
-                        // Only show bomb neighbors, not cat neighbors
+                        // Show bomb neighbors
                         const bombCount = this.grid[i][j].neighborBombs;
                         if (bombCount > 0) {
                             cell.textContent = bombCount;
@@ -168,38 +174,43 @@ class FindOscar {
         }
         this.isFirstClick = false;
 
-        this.grid[row][col].revealed = true;
-
         if (this.grid[row][col].isBomb) {
+            this.grid[row][col].revealed = true;
             this.gameOver = true;
             this.revealAllBombs();
             this.showModal(
                 'Game Over!',
-                'Oh no! You hit a bomb! Oscar ran away... Try again!',
+                'Oh no! You hit a bomb! Oscar ran away... All cats and bombs are now revealed!',
                 false
             );
         } else if (this.grid[row][col].isCat) {
+            this.grid[row][col].revealed = true;
             this.catsFound++;
             document.getElementById('cats-count').textContent = this.numCats - this.catsFound;
             
             if (this.catsFound === this.numCats) {
                 this.gameOver = true;
+                this.revealAllBombs();  // Show all bombs when winning too
                 this.showModal(
                     'Congratulations!',
-                    'You found all the cats! Oscar is very happy! 🎉',
+                    'You found all the cats! Oscar is very happy! All cats and bombs are now revealed! 🎉',
                     true
                 );
             }
-        } else if (this.grid[row][col].neighborBombs === 0 && this.grid[row][col].neighborCats === 0) {
-            // Reveal neighboring cells if no adjacent bombs or cats
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                    const newRow = row + i;
-                    const newCol = col + j;
-                    if (newRow >= 0 && newRow < this.gridSize && 
-                        newCol >= 0 && newCol < this.gridSize && 
-                        !this.grid[newRow][newCol].revealed) {
-                        this.revealCell(newRow, newCol);
+        } else {
+            this.grid[row][col].revealed = true;
+            if (this.grid[row][col].neighborBombs === 0) {
+                // Reveal neighboring cells if no adjacent bombs, but don't auto-reveal cats
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        const newRow = row + i;
+                        const newCol = col + j;
+                        if (newRow >= 0 && newRow < this.gridSize && 
+                            newCol >= 0 && newCol < this.gridSize && 
+                            !this.grid[newRow][newCol].revealed &&
+                            !this.grid[newRow][newCol].isCat) {
+                            this.revealCell(newRow, newCol);
+                        }
                     }
                 }
             }
@@ -234,8 +245,11 @@ class FindOscar {
     revealAllBombs() {
         for (let i = 0; i < this.gridSize; i++) {
             for (let j = 0; j < this.gridSize; j++) {
-                if (this.grid[i][j].isBomb) {
+                if (this.grid[i][j].isBomb || this.grid[i][j].isCat) {
                     this.grid[i][j].revealed = true;
+                    if (this.grid[i][j].isBomb) {
+                        this.grid[i][j].isEndGameBomb = true;  // Mark bombs revealed at end
+                    }
                 }
             }
         }

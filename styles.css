@@ -68,14 +68,14 @@ h1 {
     grid-template-columns: repeat(10, 45px);
     grid-template-rows: repeat(10, 45px);
     gap: 4px;
-    background-color: #e2e8f0;
+    background-color: #f1f5f9;
     padding: 4px;
     border-radius: 1rem;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
 .cell {
-    background-color: #fff;
+    background-color: #f8fafc;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -85,26 +85,57 @@ h1 {
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .cell:hover {
-    background-color: #f7fafc;
+    background-color: #f1f5f9;
     transform: scale(1.05);
 }
 
 .revealed {
-    background-color: #f8fafc;
+    background-color: #ffffff;
+    cursor: default;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.revealed:hover {
+    transform: none;
+    background-color: #ffffff;
 }
 
 .cat {
-    background-color: #feebc8;
+    background-color: #fef3c7;
     font-size: 1.5rem;
+}
+
+.end-game-cat {
+    background-color: #fef9c3;
+    box-shadow: 0 0 0 2px #fbbf24;
+    animation: pulseGold 2s infinite;
 }
 
 .bomb {
     background-color: #fee2e2;
     font-size: 1.5rem;
+}
+
+.end-game-bomb {
+    background-color: #fecaca;
+    box-shadow: 0 0 0 2px #f87171;
+    animation: pulseRed 2s infinite;
+}
+
+@keyframes pulseGold {
+    0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(251, 191, 36, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(248, 113, 113, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(248, 113, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(248, 113, 113, 0); }
 }
 
 /* Number colors - total of nearby bombs and cats */
