@@ -1,7 +1,7 @@
 class FindOscar {
     constructor() {
         this.gridSize = 10;
-        this.numBombs = 10;
+        this.numBombs = 8;
         this.numCats = 5; // Reduced number of cats since we now have bombs too
         this.grid = [];
         this.gameOver = false;
@@ -145,10 +145,11 @@ class FindOscar {
                         cell.innerHTML = '🐱';
                         cell.classList.add('cat');
                     } else {
-                        const total = this.grid[i][j].neighborBombs + this.grid[i][j].neighborCats;
-                        if (total > 0) {
-                            cell.textContent = total;
-                            cell.dataset.number = total;
+                        // Only show bomb neighbors, not cat neighbors
+                        const bombCount = this.grid[i][j].neighborBombs;
+                        if (bombCount > 0) {
+                            cell.textContent = bombCount;
+                            cell.dataset.number = bombCount;
                         }
                     }
                 }
@@ -174,7 +175,7 @@ class FindOscar {
             this.revealAllBombs();
             this.showModal(
                 'Game Over!',
-                'You hit a bomb! Try again.',
+                'Oh no! You hit a bomb! Oscar ran away... Try again!',
                 false
             );
         } else if (this.grid[row][col].isCat) {
@@ -184,8 +185,8 @@ class FindOscar {
             if (this.catsFound === this.numCats) {
                 this.gameOver = true;
                 this.showModal(
-                    'You Won!',
-                    'Congratulations! You found all the cats!',
+                    'Congratulations!',
+                    'You found all the cats! Oscar is very happy! 🎉',
                     true
                 );
             }
